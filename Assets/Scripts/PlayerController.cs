@@ -63,6 +63,6 @@ public class PlayerController : MonoBehaviour
     private void Flip()
     {        
         _directionX = -_directionX;
-        transform.localScale = new Vector3(_directionX, 1f, 1f);
+        transform.localScale = new Vector3(_directionX, transform.localScale.y, transform.localScale.z);
     }
 }
