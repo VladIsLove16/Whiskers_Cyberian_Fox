@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -27,8 +29,7 @@ public class Bullet : MonoBehaviour
         Attack attack = collision.gameObject.GetComponent<Attack>();
         if(attack != null)
         {
-            Debug.Log("Пуля Испарилась");
-            Destroy(gameObject);
+            Disappear();
         }
         IDamagable damagable = collision.gameObject.GetComponent<IDamagable>();
         if (damagable != null)
@@ -36,6 +37,16 @@ public class Bullet : MonoBehaviour
             damagable.OnEnterAttackArea();
         }
     }
+
+    private async void Disappear()
+    {
+        Debug.Log("Пуля попала в портал");
+        Speed = 0;
+        await Task.Delay(1000);
+        Debug.Log("Пуля Испарилась");
+        Destroy(gameObject);
+    }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         IDamagable damagable = collision.gameObject.GetComponent<IDamagable>();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,8 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
 
     private float _directionX = 1;
+    private bool Crouching;
+    private float CrouchTime;
     
     void Start()
     {
@@ -56,8 +59,32 @@ public class PlayerController : MonoBehaviour
             Vector2 portalPosition = transform.localPosition + new Vector3(_attackOffset * _directionX, 0, 0);
             Instantiate(_attackObject, portalPosition, Quaternion.Euler(Vector3.zero));
         }
+        Crouch();//просто для мемов, но надо стейт машину мб
 
         _animator.SetFloat("Move", Mathf.Abs(move));
+    }
+
+    private void Crouch()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (!Crouching)
+            {
+                Crouching = true;
+                CrouchTime = 1.25f;
+                Vector3 ScaleChange = new Vector3(1, 0.5f, 1);
+                transform.localScale = Vector3.Scale(transform.localScale, ScaleChange);
+            }
+        }
+        CrouchTime -= Time.deltaTime;
+        if (CrouchTime < 0) {
+            if(Crouching)
+            {
+                Vector3 ScaleChange = new Vector3(1, 2, 1);
+                transform.localScale = Vector3.Scale(transform.localScale, ScaleChange);
+                Crouching = false;
+            }
+        }
     }
 
     private void Flip()
