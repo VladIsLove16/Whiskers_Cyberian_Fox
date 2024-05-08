@@ -14,12 +14,10 @@ public class Attack : MonoBehaviour
         if (lifetime <= 0)
             Destroy(gameObject);
     }
-
-
+    //Огромный минус - если действуют две атаки сразу и из одной атаки выходит то автоматически выходит из второй
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IDamagable hit = collision.GetComponent<Enemy>();
-
         if (hit != null)
             hit.OnEnterAttackArea();
     }
