@@ -32,7 +32,9 @@ public class PlayerController : MonoBehaviour
     private float _directionX = 1;
     private bool Crouching;
     private float CrouchTime;
-    
+
+    public bool isGround;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -43,8 +45,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         float move = Input.GetAxisRaw("Horizontal");
-        bool isGround = Physics2D.OverlapCircle(_checkGround.position, .2f, _layerGround);
-
+        isGround = Physics2D.OverlapCircle(_checkGround.position, .2f, _layerGround);
+        
         _rb.velocity = new Vector2(_speed * move, _rb.velocity.y);
 
         if (Input.GetButtonDown("Jump"))
@@ -91,5 +93,10 @@ public class PlayerController : MonoBehaviour
     {        
         _directionX = -_directionX;
         transform.localScale = new Vector3(_directionX, transform.localScale.y, transform.localScale.z);
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(_checkGround.position, 0.2f);
     }
 }

@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pickup : MonoBehaviour
+public class Berry : Pickup
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        gameObject.SetActive(false);
+        base.OnTriggerEnter2D (collision);
+
+
     }
 }
