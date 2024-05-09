@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    AudioSource audioSource;
+    public AudioSource audioSource;
     public AudioClip Spawn;
     public AudioClip Living;
     public AudioClip Dead;
@@ -18,12 +18,12 @@ public class Attack : MonoBehaviour
     {
         lifetime -= Time.deltaTime;
         if (lifetime <= 0)
-            Destroy(gameObject);
+            Close();
     }
-    private async void CloseTheRift()
+    private async void Close()
     {
         audioSource.PlayOneShot(Dead);
-        await Task.Delay(1000);
+        await Task.Delay(0);
         Destroy(gameObject);
     }
 

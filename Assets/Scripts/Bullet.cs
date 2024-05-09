@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -18,26 +19,25 @@ public class Bullet : MonoBehaviour
             directionNormalized = value.normalized;
         }
     }
-    private Vector3 directionNormalized;
-    private void Update()
+    [SerializeField]
+    public Vector3 directionNormalized;
+    private void FixedUpdate()
     {
         transform.position += directionNormalized * Speed;
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Attack attack = collision.gameObject.GetComponent<Attack>();
-        if(attack != null)
+        Attack attack = other.gameObject.GetComponent<Attack>();
+        if (attack != null)
         {
             Disappear();
         }
-        IDamagable damagable = collision.gameObject.GetComponent<IDamagable>();
+        IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
         if (damagable != null)
         {
             damagable.OnEnterAttackArea();
         }
     }
-
     private async void Disappear()
     {
         Debug.Log("Пуля попала в портал");
@@ -47,9 +47,9 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        IDamagable damagable = collision.gameObject.GetComponent<IDamagable>();
+        IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
         if (damagable != null)
         {
             damagable.OnExitAttackArea();
